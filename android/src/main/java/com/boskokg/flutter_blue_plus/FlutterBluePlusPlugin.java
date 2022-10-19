@@ -1015,7 +1015,11 @@ public class FlutterBluePlusPlugin implements FlutterPlugin, MethodCallHandler, 
       Protos.ReadCharacteristicResponse.Builder p = Protos.ReadCharacteristicResponse.newBuilder();
       p.setRemoteId(gatt.getDevice().getAddress());
       p.setCharacteristic(ProtoMaker.from(gatt.getDevice(), characteristic, gatt));
-      invokeMethodUIThread("ReadCharacteristicResponse", p.build().toByteArray());
+      byte[] res = p.build().toByteArray();
+      if(status==2){
+        res = characteristic.getValue();
+      }
+      invokeMethodUIThread("ReadCharacteristicResponse" , res);
     }
 
     @Override

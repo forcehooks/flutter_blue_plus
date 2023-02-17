@@ -990,6 +990,13 @@ public class FlutterBluePlusPlugin implements FlutterPlugin, MethodCallHandler, 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
       log(LogLevel.DEBUG, "[onConnectionStateChange] status: " + status + " newState: " + newState);
+      if(newState == 2){
+       if(gatt.requestMtu(512)) {
+             log(LogLevel.DEBUG, "[requestMtu] status");
+            } else {
+             log(LogLevel.DEBUG, "gatt.requestMtu returned false");
+            }
+     }
       if(newState == BluetoothProfile.STATE_DISCONNECTED) {
         if(!mDevices.containsKey(gatt.getDevice().getAddress())) {
           gatt.close();
